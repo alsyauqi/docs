@@ -1,80 +1,325 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Panduan Lengkap Komponen Sistem"
+description: "Penjelasan detail setiap tab dan fitur dalam Electric Monitoring System"
 ---
 
-## Get started in three steps
+# Panduan Lengkap Komponen Sistem
 
-Get your documentation site running locally and make your first customization.
+Panduan ini menjelaskan secara detail setiap komponen dan fitur dalam Electric Monitoring System, termasuk fungsi, parameter, dan cara interpretasi data pada setiap tab.
 
-### Step 1: Set up your local environment
+## 1. TAB OVERVIEW
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+Tab Overview berfungsi sebagai **ringkasan kondisi sistem secara keseluruhan**, menampilkan metrik paling penting (KPI) dan visualisasi tren utama.
 
-### Step 2: Deploy your changes
+### KPI Cards (Indikator Kinerja Utama)
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+#### 🔋 Tegangan Rata-rata
+- **Fungsi**: Menghitung rata-rata dari tiga fase (R, S, T)
+- **Status Normal**: 210-230V
+- **Indikator**: 
+  - 🟢 **Normal**: 210-230V
+  - 🟡 **Warning**: 200-210V atau 230-240V
+  - 🔴 **Critical**: &lt;200V atau &gt;240V
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+#### ⚡ Arus Rata-rata
+- **Fungsi**: Menghitung rata-rata arus dari tiga fase
+- **Tracking**: Tren perubahan dalam bentuk persentase
+- **Formula**: `(I_R + I_S + I_T) / 3`
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+#### 🔌 Total Daya Aktif
+- **Fungsi**: Menampilkan daya yang benar-benar digunakan oleh beban
+- **Satuan**: Watt (W)
+- **Indikator**: Utama untuk efisiensi sistem
 
-### Step 3: Go live
+#### 📊 Power Factor Rata-rata
+- **Fungsi**: Mengukur efisiensi penggunaan daya listrik
+- **Rating**:
+  - 🟢 **Excellent**: &gt;0.95
+  - 🟡 **Good**: &gt;0.90
+  - 🔴 **Poor**: &lt;0.90
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+### Charts (Grafik)
 
-## Next steps
+#### ImprovedVoltageChart
+- **Jenis**: Grafik garis 3-phase
+- **Fitur**: Garis referensi untuk batas normal
+- **Data**: Tegangan R, S, T secara bersamaan
 
-Now that you have your docs running, explore these key features:
+#### ImprovedPowerChart
+- **Jenis**: Grafik gabungan (composed chart)
+- **Visualisasi**: 
+  - Daya aktif (area chart)
+  - Daya reaktif &amp; semu (line chart)
 
-<CardGroup cols={2}>
+---
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+## 2. TAB TEGANGAN (VOLTAGE)
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+Fokus pada **analisis detail dan kualitas tegangan listrik** dengan monitoring ketidakseimbangan dan distorsi.
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+### Cards Fase Individual
+- **Fase R**: Tegangan Line-to-Neutral
+- **Fase S**: Tegangan Line-to-Neutral  
+- **Fase T**: Tegangan Line-to-Neutral
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+### Analisis Ketidakseimbangan
+- **Formula**: `|V_max - V_min| / V_avg × 100%`
+- **Batas Normal**: &lt; 2%
+- **Dampak**: Kesehatan peralatan motor
 
-</CardGroup>
+### Kualitas Tegangan
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+#### THD (Total Harmonic Distortion) Tegangan
+- **Fungsi**: Mengukur "polusi" atau distorsi gelombang
+- **Target**: &lt; 5% (sangat baik)
+- **Formula**: `√(V₂² + V₃² + ... + Vₙ²) / V₁ × 100%`
+
+#### Frekuensi Sistem
+- **Target**: 50 Hz ± 0.5 Hz
+- **Monitoring**: Stabilitas grid
+
+#### Regulasi Tegangan
+- **Fungsi**: Kemampuan menjaga tegangan di 220V
+- **Formula**: `(V_no_load - V_full_load) / V_full_load × 100%`
+
+#### Flicker Detection
+- **Fungsi**: Deteksi fluktuasi tegangan cepat
+- **Dampak**: Kedipan lampu, gangguan peralatan sensitif
+
+---
+
+## 3. TAB ARUS (CURRENT)
+
+Memberikan **analisis mendalam mengenai arus** yang mengalir pada sistem dan kualitas beban.
+
+### Cards Fase Arus
+- **Fase R**: Arus dalam Ampere
+- **Fase S**: Arus dalam Ampere
+- **Fase T**: Arus dalam Ampere
+
+### Kualitas Arus
+
+#### THD Arus
+- **Fungsi**: Distorsi gelombang arus
+- **Target**: &lt; 5%
+- **Penyebab**: Beban non-linear (VFD, SMPS)
+
+#### Ketidakseimbangan Arus
+- **Formula**: `|I_max - I_min| / I_avg × 100%`
+- **Target**: &lt; 2% (sangat baik)
+- **Dampak**: Overheating neutral, motor vibration
+
+#### Crest Factor
+- **Formula**: `I_peak / I_rms`
+- **Normal**: 1.41 untuk sinusoidal
+- **Fungsi**: Deteksi beban non-linear
+
+#### Load Factor
+- **Formula**: `I_avg / I_max × 100%`
+- **Optimal**: &gt; 70%
+- **Fungsi**: Efisiensi penggunaan kapasitas
+
+### Charts Arus
+
+#### ImprovedCurrentChart
+- **Jenis**: Area chart
+- **Visualisasi**: Beban arus ketiga fase
+
+#### THDAnalysisChart
+- **Fungsi**: Analisis harmonik detail
+- **Data**: Spektrum frekuensi harmonik
+
+---
+
+## 4. TAB DAYA (POWER)
+
+Fokus pada **berbagai jenis daya dan analisis efisiensi** sistem kelistrikan.
+
+### Cards Daya
+
+#### Daya Aktif (P - Watt)
+- **Fungsi**: Daya yang melakukan kerja nyata
+- **Formula**: `P = V × I × cos(φ)`
+- **Satuan**: Watt (W)
+
+#### Daya Reaktif (Q - VAR)
+- **Fungsi**: Daya untuk medan magnet (motor, trafo)
+- **Formula**: `Q = V × I × sin(φ)`
+- **Satuan**: VAR (Volt-Ampere Reactive)
+
+#### Daya Semu (S - VA)
+- **Fungsi**: Total daya dari sumber
+- **Formula**: `S = V × I`
+- **Satuan**: VA (Volt-Ampere)
+
+### Analisis Efisiensi
+
+#### Power Triangle
+- **Visualisasi**: Hubungan P, Q, S dalam segitiga
+- **Sudut φ**: Phase angle
+- **Interpretasi**: Semakin kecil sudut, semakin efisien
+
+#### Faktor Daya
+- **Formula**: `PF = P / S = cos(φ)`
+- **Target**: Mendekati 1.0
+- **Penalti**: PLN mengenakan denda jika PF &lt; 0.85
+
+---
+
+## 5. TAB POWER FACTOR
+
+Tab khusus untuk **monitoring dan analisis faktor daya** secara mendalam dengan trend analysis.
+
+### Analisis PF Real-time
+
+#### Trend Chart
+- **Jenis**: Line chart dengan referensi
+- **Garis Referensi**:
+  - 🟢 Excellent: 0.95
+  - 🟡 Good: 0.90
+  - 🔴 Poor: &lt; 0.90
+
+#### Monitoring Real-time
+- **Update**: Setiap 5 detik
+- **Animasi**: Visual feedback perubahan
+- **Alert**: Notifikasi jika PF turun
+
+### Analisis Lanjutan
+- **Leading/Lagging**: Deteksi jenis beban
+- **Correction**: Saran kapasitor bank
+- **Cost Impact**: Estimasi penalti PLN
+
+---
+
+## 6. TAB DEVICE
+
+Memberikan **informasi status dan pembacaan** dari setiap perangkat keras (PZEM) yang terpasang.
+
+### Monitoring PZEM Individual
+
+#### Device PZEM R-N (Fase R to Neutral)
+- **Status**: Normal/Warning/Error
+- **Parameters**:
+  - Tegangan (V)
+  - Arus (A)
+  - Daya Aktif (W)
+  - Power Factor
+  - Suhu perangkat (°C)
+  - Efisiensi (%)
+  - Persentase beban (%)
+
+#### Device PZEM S-N (Fase S to Neutral)
+- **Monitoring**: Identik dengan PZEM R-N
+- **Comparison**: Perbandingan antar fase
+
+#### Device PZEM T-N (Fase T to Neutral)
+- **Monitoring**: Identik dengan PZEM R-N
+- **Load Balancing**: Analisis distribusi beban
+
+### Health Monitoring
+- **Connection Status**: Online/Offline
+- **Data Quality**: Validitas pembacaan
+- **Maintenance**: Jadwal kalibrasi
+
+---
+
+## 7. TAB DATA MANAGEMENT
+
+Fitur canggih untuk **mengelola, memfilter, dan mengoptimalkan** data historis dengan performa tinggi.
+
+### Sistem Filter Lanjutan
+
+#### Filter Waktu
+- **24 Jam**: Data real-time dengan resolusi tinggi
+- **7 Hari**: Data harian dengan agregasi
+- **1 Bulan**: Data mingguan dengan kompresi
+
+#### Filter Kriteria
+- **Rentang Nilai**: Min/max untuk setiap parameter
+- **Deteksi Anomali**: Outlier detection
+- **Quality Filter**: Data valid saja
+
+### Optimasi Data
+
+#### Kompresi Data
+- **Algoritma**: Delta encoding + quantization
+- **Reduksi**: 60-80% ukuran file
+- **Kecepatan**: Pemuatan lebih cepat
+
+#### Caching &amp; Memory Management
+- **IndexedDB**: Storage browser untuk data besar
+- **Circular Buffers**: Memory management real-time
+- **Performance**: &lt; 50MB penggunaan memori
+
+### Storage Strategy
+
+#### 24 Jam Data
+- **Storage**: localStorage
+- **Alasan**: Akses cepat, dataset kecil (~8MB)
+- **Load Time**: &lt; 1 detik
+
+#### 7 Hari Data  
+- **Storage**: IndexedDB
+- **Alasan**: Dataset medium (~58MB)
+- **Load Time**: &lt; 5 detik
+
+#### 1 Bulan Data
+- **Storage**: Hybrid system
+- **Alasan**: Dataset besar (~247MB)
+- **Load Time**: &lt; 10 detik
+- **Chunking**: Fetching dalam segmen 7 hari
+
+---
+
+## Formula Kelistrikan yang Digunakan
+
+### Daya dan Efisiensi
+```
+Daya Semu (S) = V × I
+Daya Aktif (P) = V × I × cos(φ)
+Daya Reaktif (Q) = V × I × sin(φ)
+Power Factor (PF) = P / S
+Efisiensi (η) = P_out / P_in × 100%
+```
+
+### Ketidakseimbangan
+```
+Voltage Unbalance = |V_max - V_min| / V_avg × 100%
+Current Unbalance = |I_max - I_min| / I_avg × 100%
+```
+
+### Distorsi Harmonik
+```
+THD = √(H₂² + H₃² + ... + Hₙ²) / H₁ × 100%
+Crest Factor = Peak Value / RMS Value
+```
+
+### Regulasi dan Kualitas
+```
+Voltage Regulation = (V_no_load - V_full_load) / V_full_load × 100%
+Load Factor = Average Load / Peak Load × 100%
+```
+
+---
+
+## Tips Interpretasi Data
+
+### 🟢 Kondisi Normal
+- Tegangan: 210-230V
+- THD: &lt; 5%
+- Unbalance: &lt; 2%
+- Power Factor: &gt; 0.90
+
+### 🟡 Perlu Perhatian
+- Tegangan: 200-210V atau 230-240V
+- THD: 5-8%
+- Unbalance: 2-5%
+- Power Factor: 0.85-0.90
+
+### 🔴 Kondisi Kritis
+- Tegangan: &lt; 200V atau &gt; 240V
+- THD: &gt; 8%
+- Unbalance: &gt; 5%
+- Power Factor: &lt; 0.85
+
+Sistem ini dirancang untuk memberikan visibilitas penuh terhadap kondisi kelistrikan dan membantu dalam pengambilan keputusan operasional yang tepat.
