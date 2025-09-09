@@ -56,9 +56,7 @@ flowchart Gateway
     D --> E[Selesai]
 ```
 
-## Diagram Alur Lanjutan
-
-### Subgraph dan Styling
+## Diagram Alur Interface
 
 ```mermaid
 flowchart TB
@@ -67,19 +65,20 @@ flowchart TB
     
     subgraph "Frontend"
         A[Aplikasi React] --> B[API Call]
-        class A,B frontend
     end
     
     subgraph "Backend"
         C[API Gateway] --> D[Lambda Function]
         D --> E[Database]
-        class C,D,E backend
     end
     
     B --> C
     E --> D
     D --> C
     C --> B
+    
+    class A,B frontend
+    class C,D,E backend
 ```
 
 ### Alur Kerja Kompleks
