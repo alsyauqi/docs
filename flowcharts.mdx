@@ -11,6 +11,7 @@ Diagram alur adalah alat visual yang powerful untuk menjelaskan proses kompleks,
 ## Ringkasan
 
 Diagram alur dapat dibuat menggunakan berbagai metode:
+
 - Diagram Mermaid (direkomendasikan)
 - Alat diagram eksternal
 - Embed gambar
@@ -25,7 +26,7 @@ Mermaid adalah cara paling populer untuk membuat diagram alur dalam dokumentasi.
 ```mermaid
 flowchart TD
     A[Mulai] --> B{Apakah berfungsi?}
-    B -->|Ya| C[Bagus!]
+    B -->|Ya| C[Berfungsi!]
     B -->|Tidak| D[Debug]
     D --> B
     C --> E[Selesai]
@@ -35,7 +36,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Permintaan User] --> B{Perlu Autentikasi?}
+    A[Permintaan User] --> B{Perlu Akses API?}
     B -->|Ya| C[Periksa Kredensial]
     B -->|Tidak| F[Proses Permintaan]
     C --> D{Kredensial Valid?}
@@ -105,28 +106,25 @@ flowchart TD
 
 ### Bentuk Node
 
-| Bentuk | Sintaks | Kasus Penggunaan |
-|--------|---------|------------------|
-| Persegi Panjang | `A[Teks]` | Proses/Aksi |
-| Belah Ketupat | `A{Teks}` | Keputusan |
-| Lingkaran | `A((Teks))` | Mulai/Selesai |
-| Stadium | `A([Teks])` | Mulai/Selesai |
-| Silinder | `A[(Teks)]` | Database |
-| Jajaran Genjang | `A[/Teks/]` | Input/Output |
+| Bentuk          | Sintaks     | Kasus Penggunaan |
+| --------------- | ----------- | ---------------- |
+| Persegi Panjang | `A[Teks]`   | Proses/Aksi      |
+| Belah Ketupat   | `A{Teks}`   | Keputusan        |
+| Lingkaran       | `A((Teks))` | Mulai/Selesai    |
+| Stadium         | `A([Teks])` | Mulai/Selesai    |
+| Silinder        | `A[(Teks)]` | Database         |
+| Jajaran Genjang | `A[/Teks/]` | Input/Output     |
 
 ### Jenis Koneksi
 
-| Jenis | Sintaks | Deskripsi |
-|-------|---------|-----------|
-| Panah | `A --> B` | Alur standar |
-| Berlabel | `A -->|Label| B` | Koneksi berlabel |
-| Putus-putus | `A -.-> B` | Opsional/Async |
-| Tebal | `A ==> B` | Alur penting |
+<table style="min-width: 75px">
+<colgroup><col style="min-width: 25px"><col style="min-width: 25px"><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Jenis</p></th><th colspan="1" rowspan="1"><p>Sintaks</p></th><th colspan="1" rowspan="1"><p>Deskripsi</p></th></tr><tr><td colspan="1" rowspan="1"><p>Panah</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A --&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Alur standar</p></td></tr><tr><td colspan="1" rowspan="1"><p>Berlabel</p></td><td colspan="1" rowspan="1"><p>`A --&gt;</p></td><td colspan="1" rowspan="1"><p>Label</p></td><td colspan="1" rowspan="1"><p>B`</p></td><td colspan="1" rowspan="1"><p>Koneksi berlabel</p></td></tr><tr><td colspan="1" rowspan="1"><p>Putus-putus</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A -.-&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Opsional/Async</p></td></tr><tr><td colspan="1" rowspan="1"><p>Tebal</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A ==&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Alur penting</p></td></tr></tbody>
+</table>
 
 ## Praktik Terbaik
 
 <Tip>
-Jaga diagram alur tetap sederhana dan fokus. Jika diagram menjadi terlalu kompleks, pertimbangkan untuk memecahnya menjadi beberapa diagram yang lebih kecil.
+  Jaga diagram alur tetap sederhana dan fokus. Jika diagram menjadi terlalu kompleks, pertimbangkan untuk memecahnya menjadi beberapa diagram yang lebih kecil.
 </Tip>
 
 ### Panduan Desain
@@ -154,6 +152,7 @@ flowchart TD
     B --> C[Selesai]
 ```
 
+
 ```mermaid Dengan Keputusan
 flowchart TD
     A[Mulai] --> B{Keputusan}
@@ -162,6 +161,7 @@ flowchart TD
     C --> E[Selesai]
     D --> E
 ```
+
 
 ```mermaid Alur Kompleks
 flowchart TB
@@ -198,7 +198,7 @@ flowchart TB
 - Pertimbangkan review diagram sebagai bagian dari review dokumentasi
 
 <Warning>
-Diagram alur yang besar atau kompleks dapat mempengaruhi waktu loading halaman. Pertimbangkan menggunakan alat diagram eksternal untuk workflow yang sangat detail.
+  Diagram alur yang besar atau kompleks dapat mempengaruhi waktu loading halaman. Pertimbangkan menggunakan alat diagram eksternal untuk workflow yang sangat detail.
 </Warning>
 
 ## Alat dan Sumber Daya
