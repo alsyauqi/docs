@@ -63,6 +63,9 @@ flowchart LR
 
 ```mermaid
 flowchart TB
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    
     subgraph "Frontend"
         A[Aplikasi React] --> B[API Call]
     end
@@ -76,9 +79,6 @@ flowchart TB
     E --> D
     D --> C
     C --> B
-    
-    classDef frontend fill:#e1f5fe
-    classDef backend fill:#f3e5f5
     
     class A,B frontend
     class C,D,E backend
@@ -116,30 +116,12 @@ flowchart TD
 
 ### Jenis Koneksi
 
-<table style="min-width: 75px">
-<colgroup><col style="min-width: 25px"><col style="min-width: 25px"><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Jenis</p></th><th colspan="1" rowspan="1"><p>Sintaks</p></th><th colspan="1" rowspan="1"><p>Deskripsi</p></th></tr><tr><td colspan="1" rowspan="1"><p>Panah</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A --&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Alur standar</p></td></tr><tr><td colspan="1" rowspan="1"><p>Berlabel</p></td><td colspan="1" rowspan="1"><p>`A --&gt;</p></td><td colspan="1" rowspan="1"><p>Label</p></td><td colspan="1" rowspan="1"><p>B`</p></td><td colspan="1" rowspan="1"><p>Koneksi berlabel</p></td></tr><tr><td colspan="1" rowspan="1"><p>Putus-putus</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A -.-&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Opsional/Async</p></td></tr><tr><td colspan="1" rowspan="1"><p>Tebal</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A ==&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Alur penting</p></td></tr></tbody>
-</table>
-
-## Praktik Terbaik
-
-<Tip>
-  Jaga diagram alur tetap sederhana dan fokus. Jika diagram menjadi terlalu kompleks, pertimbangkan untuk memecahnya menjadi beberapa diagram yang lebih kecil.
-</Tip>
-
-### Panduan Desain
-
-1. **Mulai dengan tujuan** - Tentukan apa yang harus dikomunikasikan diagram alur
-2. **Gunakan bentuk yang konsisten** - Patuhi simbol diagram alur standar
-3. **Pertahankan arah alur** - Umumnya dari atas ke bawah atau kiri ke kanan
-4. **Label dengan jelas** - Gunakan label yang ringkas dan deskriptif
-5. **Kelompokkan elemen terkait** - Gunakan subgraph untuk pengelompokan logis
-
-### Aksesibilitas
-
-- Berikan teks alt untuk diagram kompleks
-- Gunakan warna kontras tinggi
-- Sertakan deskripsi teks untuk screen reader
-- Pastikan diagram dapat dibaca pada berbagai tingkat zoom
+| Jenis | Sintaks | Deskripsi |
+|-------|---------|-----------|
+| Panah | `A --> B` | Alur standar |
+| Berlabel | `A -->|Label| B` | Koneksi berlabel |
+| Putus-putus | `A -.-> B` | Opsional/Async |
+| Tebal | `A ==> B` | Alur penting |
 
 ## Contoh Interaktif
 
