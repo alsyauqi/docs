@@ -1,0 +1,221 @@
+---
+title: "Flowcharts"
+description: "Create beautiful flowcharts and diagrams in your documentation"
+icon: "diagram-project"
+---
+
+# Flowcharts
+
+Flowcharts are powerful visual tools that help explain complex processes, decision trees, and workflows. This guide shows you how to create and integrate flowcharts into your documentation.
+
+## Overview
+
+Flowcharts can be created using various methods:
+- Mermaid diagrams (recommended)
+- External diagram tools
+- Image embeds
+- Interactive diagrams
+
+## Mermaid Flowcharts
+
+Mermaid is the most popular way to create flowcharts in documentation. It uses simple text syntax to generate beautiful diagrams.
+
+### Basic Flowchart
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is it working?}
+    B -->|Yes| C[Great!]
+    B -->|No| D[Debug]
+    D --> B
+    C --> E[End]
+```
+
+### Decision Tree Example
+
+```mermaid
+flowchart TD
+    A[User Request] --> B{Authentication Required?}
+    B -->|Yes| C[Check Credentials]
+    B -->|No| F[Process Request]
+    C --> D{Valid Credentials?}
+    D -->|Yes| F[Process Request]
+    D -->|No| E[Return Error]
+    F --> G[Return Response]
+    E --> H[End]
+    G --> H[End]
+```
+
+### Process Flow
+
+```mermaid
+flowchart LR
+    A[Input Data] --> B[Validate]
+    B --> C[Transform]
+    C --> D[Store]
+    D --> E[Notify]
+    E --> F[Complete]
+```
+
+## Advanced Flowcharts
+
+### Subgraphs and Styling
+
+```mermaid
+flowchart TB
+    subgraph "Frontend"
+        A[React App] --> B[API Call]
+    end
+    
+    subgraph "Backend"
+        C[API Gateway] --> D[Lambda Function]
+        D --> E[Database]
+    end
+    
+    B --> C
+    E --> D
+    D --> C
+    C --> B
+    
+    classDef frontend fill:#e1f5fe
+    classDef backend fill:#f3e5f5
+    
+    class A,B frontend
+    class C,D,E backend
+```
+
+### Complex Workflow
+
+```mermaid
+flowchart TD
+    Start([Start]) --> Input[/User Input/]
+    Input --> Validate{Validate Input}
+    Validate -->|Invalid| Error[Show Error]
+    Error --> Input
+    Validate -->|Valid| Process[Process Data]
+    Process --> Save[(Save to Database)]
+    Save --> Success{Save Successful?}
+    Success -->|No| Retry[Retry Save]
+    Retry --> Save
+    Success -->|Yes| Notify[Send Notification]
+    Notify --> End([End])
+```
+
+## Flowchart Syntax Reference
+
+### Node Shapes
+
+| Shape | Syntax | Use Case |
+|-------|--------|----------|
+| Rectangle | `A[Text]` | Process/Action |
+| Diamond | `A{Text}` | Decision |
+| Circle | `A((Text))` | Start/End |
+| Stadium | `A([Text])` | Start/End |
+| Cylinder | `A[(Text)]` | Database |
+| Parallelogram | `A[/Text/]` | Input/Output |
+
+### Connection Types
+
+| Type | Syntax | Description |
+|------|--------|-------------|
+| Arrow | `A --> B` | Standard flow |
+| Labeled | `A -->|Label| B` | Labeled connection |
+| Dotted | `A -.-> B` | Optional/Async |
+| Thick | `A ==> B` | Important flow |
+
+## Best Practices
+
+<Tip>
+Keep flowcharts simple and focused. If a diagram becomes too complex, consider breaking it into multiple smaller diagrams.
+</Tip>
+
+### Design Guidelines
+
+1. **Start with purpose** - Define what the flowchart should communicate
+2. **Use consistent shapes** - Stick to standard flowchart symbols
+3. **Maintain flow direction** - Generally top-to-bottom or left-to-right
+4. **Label clearly** - Use concise, descriptive labels
+5. **Group related elements** - Use subgraphs for logical groupings
+
+### Accessibility
+
+- Provide alt text for complex diagrams
+- Use high contrast colors
+- Include text descriptions for screen readers
+- Ensure diagrams are readable at different zoom levels
+
+## Interactive Examples
+
+<CodeGroup>
+
+```mermaid Simple Process
+flowchart TD
+    A[Start] --> B[Process]
+    B --> C[End]
+```
+
+```mermaid With Decisions
+flowchart TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Action A]
+    B -->|No| D[Action B]
+    C --> E[End]
+    D --> E
+```
+
+```mermaid Complex Flow
+flowchart TB
+    subgraph "User Layer"
+        U[User] --> UI[User Interface]
+    end
+    
+    subgraph "Application Layer"
+        UI --> API[API Gateway]
+        API --> AUTH[Authentication]
+        API --> BL[Business Logic]
+    end
+    
+    subgraph "Data Layer"
+        BL --> DB[(Database)]
+        BL --> CACHE[(Cache)]
+    end
+```
+
+</CodeGroup>
+
+## Integration Tips
+
+### In Documentation
+
+- Place flowcharts near relevant text content
+- Use callouts to highlight important decision points
+- Provide downloadable versions for presentations
+
+### Version Control
+
+- Keep diagram source code in version control
+- Use meaningful commit messages for diagram changes
+- Consider diagram reviews as part of documentation reviews
+
+<Warning>
+Large or complex flowcharts may impact page load times. Consider using external diagram tools for very detailed workflows.
+</Warning>
+
+## Tools and Resources
+
+### Recommended Tools
+
+- **Mermaid** - Text-based diagrams (built into Mintlify)
+- **Lucidchart** - Professional diagramming
+- **Draw.io** - Free online diagramming
+- **Figma** - Design-focused diagrams
+
+### Further Reading
+
+- [Mermaid Documentation](https://mermaid-js.github.io/mermaid/)
+- [Flowchart Best Practices](https://www.lucidchart.com/pages/flowchart-best-practices)
+- [Visual Design Principles](https://www.interaction-design.org/literature/topics/visual-design)
+
+---
+
+Ready to create your first flowchart? Start with a simple process and gradually add complexity as needed.
