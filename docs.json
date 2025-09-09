@@ -10,7 +10,7 @@
   "navigation": {
     "groups": [
       {
-        "group": "Get Started",
+        "group": "",
         "pages": [
           "introduction",
           "quickstart",
