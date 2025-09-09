@@ -1,7 +1,6 @@
 ---
 title: "Diagram Alur Sistem"
 description: "Diagram arsitektur dan alur data yang mendetail untuk Sistem Pemantauan Listrik"
-icon: "diagram-project"
 ---
 
 # Diagram Alur Sistem Pemantauan Listrik
@@ -12,469 +11,337 @@ Halaman ini menyediakan diagram alur dan ilustrasi yang mendetail mengenai arsit
 Sistem ini dirancang khusus untuk memantau tegangan, arus, daya, dan faktor daya pada instalasi listrik 3 fase dengan visualisasi real-time dan analisis kualitas daya.
 </Note>
 
-## Diagram Alur Keseluruhan
+## Alur Kerja Sistem Keseluruhan
 
-Diagram berikut menunjukkan alur kerja lengkap dari sistem pemantauan listrik, mulai dari akses pengguna hingga visualisasi data:
+```
+┌─────────────────┐                           ┌─────────────────────┐
+│   👤 PENGGUNA   │──────────────────────────▶│  📊 DASBOR UTAMA    │
+│                 │                           │                     │
+│ • Akses Web     │                           │ • Header System     │
+│ • Interaksi UI  │                           │ • Navigation Tabs   │
+└─────────────────┘                           └─────────────────────┘
+                                                        │
+                       ┌──────────────────────────────────┼──────────────────────────────────┐
+                       │                                  │                                  │
+                       ▼                                  ▼                                  ▼
+            ┌─────────────────┐                ┌─────────────────┐                ┌─────────────────┐
+            │  ⚡ TAB TEGANGAN │                │  🔌 TAB ARUS    │                │  💡 TAB DAYA    │
+            │                 │                │                 │                │                 │
+            │ • Fase R/S/T    │                │ • Fase R/S/T    │                │ • Aktif (kW)    │
+            │ • THD Analysis  │                │ • THD Analysis  │                │ • Reaktif (kVAR)│
+            │ • Imbalance     │                │ • Crest Factor  │                │ • Semu (kVA)    │
+            │ • Regulation    │                │ • Load Factor   │                │ • Konsumsi      │
+            └─────────────────┘                └─────────────────┘                └─────────────────┘
+                       │                                  │                                  │
+                       └──────────────────┬───────────────────────────────┬──────────────────┘
+                                          │                               │
+                                          ▼                               ▼
+                                ┌─────────────────┐                ┌─────────────────┐
+                                │ 📈 TAB PF       │                │ 🔧 TAB DEVICE   │
+                                │                 │                │                 │
+                                │ • Power Factor  │                │ • PZEM Status   │
+                                │ • Phase Angle   │                │ • Load %        │
+                                │ • Compensation  │                │ • Efficiency    │
+                                │ • Quality Class │                │ • Alerts        │
+                                └─────────────────┘                └─────────────────┘
+```
 
-```mermaid
-flowchart TD
-    A[Akses Pengguna] --> B{Autentikasi}
-    B -->|Terautentikasi| C[Pemuatan Dasbor]
-    B -->|Tidak Terautentikasi| D[Halaman Masuk]
-    D --> B
-    
-    C --> E[Komponen Tajuk]
-    E --> E1[Tampilan Logo]
-    E --> E2[Status Koneksi Firebase]
-    E --> E3[Tampilan Waktu Real-time]
-    E --> E4[Tombol Tema Gelap/Terang]
-    
-    C --> F[Navigasi Tab Utama]
-    F --> F1[Tab Ikhtisar - KPI Utama]
-    F --> F2[Tab Analisis Tegangan]
-    F --> F3[Tab Analisis Arus]
-    F --> F4[Tab Analisis Daya]
-    F --> F5[Tab Faktor Daya]
-    F --> F6[Tab Pemantauan Perangkat]
-    F --> F7[Tab Manajemen Data]
-    
-    C --> G[Lapisan Manajemen Data]
-    G --> G1[Hook Data Real-time Firebase]
-    G1 --> G11[Koneksi Firebase Realtime]
-    G1 --> G12[Pemrosesan Data PZEM]
-    G1 --> G13[Manajemen Cache Cerdas]
-    
-    G --> G2[Sistem Penyaringan Data]
-    G2 --> G21[Filter Rentang Waktu 24J/7H/1B]
-    G2 --> G22[Penyaringan Parameter Listrik]
-    G2 --> G23[Agregasi Data Historis]
-    
-    G --> G3[Pemantauan Kinerja Sistem]
-    G3 --> G31[Pengumpulan Metrik Performa]
-    G3 --> G32[Optimalisasi Memory & CPU]
-    
-    F1 --> H1[Kartu KPI Utama]
-    H1 --> H11[Kartu Tegangan Rata-rata]
-    H1 --> H12[Kartu Arus Rata-rata]
-    H1 --> H13[Kartu Daya Aktif Total]
-    H1 --> H14[Kartu Faktor Daya Rata-rata]
-    
-    F1 --> H2[Grafik Ikhtisar]
-    H2 --> H21[Grafik Tegangan 3 Fase]
-    H2 --> H22[Grafik Daya Komposit]
-    
-    F2 --> I1[Statistik Tegangan per Fase]
-    I1 --> I11[Kartu Tegangan Fase R]
-    I1 --> I12[Kartu Tegangan Fase S]
-    I1 --> I13[Kartu Tegangan Fase T]
-    
-    F2 --> I2[Analisis Kualitas Tegangan]
-    I2 --> I21[Grafik Trend Tegangan]
-    I2 --> I22[Analisis Ketidakseimbangan]
-    
-    F2 --> I3[Metrik Kualitas Tegangan]
-    I3 --> I31[THD Tegangan per Fase]
-    I3 --> I32[Stabilitas Frekuensi]
-    I3 --> I33[Regulasi Tegangan]
-    I3 --> I34[Analisis Flicker]
-    
-    F3 --> J1[Statistik Arus per Fase]
-    J1 --> J11[Arus Fase R-N]
-    J1 --> J12[Arus Fase S-N]
-    J1 --> J13[Arus Fase T-N]
-    
-    F3 --> J2[Visualisasi Arus]
-    J2 --> J21[Grafik Area Arus 3 Fase]
-    J2 --> J22[Grafik Analisis THD Arus]
-    
-    F3 --> J3[Analisis Kualitas Arus]
-    J3 --> J31[THD Arus per Fase]
-    J3 --> J32[Ketidakseimbangan Arus]
-    J3 --> J33[Faktor Puncak (Crest Factor)]
-    J3 --> J34[Faktor Beban (Load Factor)]
-    
-    F4 --> K1[Statistik Daya Listrik]
-    K1 --> K11[Daya Aktif (kW)]
-    K1 --> K12[Daya Reaktif (kVAR)]
-    K1 --> K13[Daya Semu (kVA)]
-    
-    F4 --> K2[Visualisasi Daya]
-    K2 --> K21[Grafik Trend Daya]
-    K2 --> K22[Diagram Segitiga Daya]
-    
-    F4 --> K3[Analisis Konsumsi Energi]
-    K3 --> K31[Konsumsi Harian (kWh)]
-    K3 --> K32[Analisis Biaya Listrik]
-    K3 --> K33[Estimasi Emisi CO2]
-    K3 --> K34[Informasi Tarif PLN]
-    
-    F5 --> L1[Ikhtisar Faktor Daya]
-    L1 --> L11[Faktor Daya Saat Ini]
-    L1 --> L12[Faktor Daya Rata-rata]
-    L1 --> L13[Sudut Fase (φ)]
-    L1 --> L14[Kompensasi Kapasitor]
-    
-    F5 --> L2[Analisis Faktor Daya]
-    L2 --> L21[Grafik Trend Faktor Daya]
-    L2 --> L22[Analisis Kebutuhan Kompensasi]
-    
-    F5 --> L3[Klasifikasi Kualitas]
-    L3 --> L31[Kategori Faktor Daya]
-    L3 --> L32[Dampak Ekonomi]
-    
-    F6 --> M1[Pemantauan Perangkat PZEM]
-    M1 --> M11[Status Perangkat PZEM-004T]
-    M1 --> M12[Parameter Listrik Real-time]
-    M1 --> M13[Persentase Beban]
-    M1 --> M14[Efisiensi Perangkat]
-    M1 --> M15[Indikator Kualitas Daya]
-    
-    F6 --> M2[Sistem Peringatan]
-    M2 --> M21[Alert Anomali Parameter]
-    M2 --> M22[Notifikasi Gangguan]
-    
-    F6 --> M3[Metrik Ringkasan Sistem]
-    M3 --> M31[Jumlah Perangkat Normal]
-    M3 --> M32[Beban Sistem Rata-rata]
-    M3 --> M33[Efisiensi Keseluruhan]
-    
-    F7 --> N1[Panel Manajemen Data]
-    N1 --> N11[Ekspor Data CSV/JSON/PDF]
-    N1 --> N12[Import Data Historis]
-    N1 --> N13[Filter Data Lanjutan]
-    N1 --> N14[Manajemen Cache]
-    
-    G11 --> O[Firebase Realtime Database]
-    O --> O1[Data Sensor PZEM Real-time]
-    O --> O2[Data Historis Terkompresi]
-    
-    G21 --> P[Penyimpanan Browser]
-    P --> P1[Cache Pengukuran]
-    P --> P2[Preferensi Pengguna]
-    P --> P3[Data Offline]
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style F fill:#fff3e0
-    style G fill:#fce4ec
-    style O fill:#f1f8e9
-    style P fill:#e0f2f1
-    
-    classDef antarmukaPengguna fill:#e1f5fe,stroke:#01579b;
-    classDef autentikasi fill:#f3e5f5,stroke:#4a148c;
-    classDef dasbor fill:#e8f5e8,stroke:#1b5e20;
-    classDef navigasi fill:#fff3e0,stroke:#e65100;
-    classDef lapisanData fill:#fce4ec,stroke:#880e4f;
-    classDef basisData fill:#f1f8e9,stroke:#33691e;
-    classDef penyimpanan fill:#e0f2f1,stroke:#004d40;
+### 🎯 Komponen Header Sistem
+```
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│  🏢 LOGO SISTEM    │  🟢 STATUS KONEKSI   │  🕐 TIMESTAMP    │  🌙 TEMA MODE      │
+│                    │                      │                  │                     │
+│  Electric Monitor  │  ● Connected         │  11:40:47 WIB    │  🌞 Light / Dark   │
+│  IoT SIAGA RRI     │  Firebase Real-time  │  09-09-2025      │  Toggle Switch     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Arsitektur Sistem Berlapis
 
-Sistem pemantauan listrik menggunakan arsitektur berlapis yang terstruktur untuk memastikan skalabilitas dan maintainability:
+### 🖥️ Lapisan 1: Antarmuka Pengguna (UI Layer)
 
-```mermaid
-flowchart TD
-    subgraph Lapisan_UI["🖥️ Lapisan Antarmuka Pengguna"]
-        A[Akses Pengguna] --> B{Autentikasi}
-        B -->|✅ Terautentikasi| C[Dasbor Next.js 14]
-        B -->|❌ Tidak Terautentikasi| D[Halaman Login]
-        D --> B
-        
-        C --> E[Header Sistem]
-        E --> E1[Logo & Branding]
-        E --> E2[Status Koneksi Real-time]
-        E --> E3[Timestamp Sinkronisasi]
-        E --> E4[Toggle Dark/Light Mode]
-        
-        C --> F[Navigasi Tab Responsif]
-        F --> F1[📊 Tab Ikhtisar]
-        F --> F2[⚡ Tab Tegangan]
-        F --> F3[🔌 Tab Arus]
-        F --> F4[💡 Tab Daya]
-        F --> F5[📈 Tab Faktor Daya]
-        F --> F6[🔧 Tab Perangkat]
-        F --> F7[💾 Tab Data Management]
-    end
-    
-    subgraph Lapisan_Data["🔄 Lapisan Pemrosesan Data"]
-        C --> G[Pipeline Data Terpadu]
-        
-        G --> G1[Hook Real-time Firebase]
-        G1 --> G11[Service Layer Firebase]
-        G1 --> G12[Transformasi Data PZEM]
-        G1 --> G13[Intelligent Caching]
-        
-        G --> G2[Enhanced Data Manager]
-        G2 --> G21[Local Storage Manager]
-        G2 --> G22[Filter Engine]
-        G2 --> G23[Data Aggregation Service]
-        
-        G --> G3[Performance Monitor]
-        G3 --> G31[Metrics Collection]
-        G3 --> G32[Resource Optimization]
-        
-        G11 --> H[Firebase Realtime DB]
-        G21 --> I[Browser Storage]
-    end
-    
-    subgraph Komponen_Visual["🎨 Komponen Visualisasi"]
-        F1 --> J1[Sistem KPI Cards]
-        J1 --> J11[📊 Voltage KPI]
-        J1 --> J12[⚡ Current KPI]
-        J1 --> J13[💡 Power KPI]
-        J1 --> J14[📈 PF KPI]
-        
-        F1 --> J2[Charts Overview]
-        J2 --> J21[Line Chart Tegangan 3-Fase]
-        J2 --> J22[Composed Chart Daya]
-        
-        F2 --> K1[Voltage Statistics]
-        K1 --> K11[Phase R Voltage Card]
-        K1 --> K12[Phase S Voltage Card]
-        K1 --> K13[Phase T Voltage Card]
-        
-        F2 --> K2[Voltage Analysis Charts]
-        K2 --> K21[Enhanced Voltage Trend]
-        K2 --> K22[Voltage Imbalance Analysis]
-        
-        F2 --> K3[Voltage Quality Metrics]
-        K3 --> K31[THD Voltage Analysis]
-        K3 --> K32[Frequency Stability]
-        K3 --> K33[Voltage Regulation]
-        K3 --> K34[Flicker Analysis]
-        
-        F3 --> L1[Current Statistics]
-        L1 --> L11[Phase R Current]
-        L1 --> L12[Phase S Current]
-        L1 --> L13[Phase T Current]
-        
-        F3 --> L2[Current Analysis Charts]
-        L2 --> L21[3-Phase Current Area Chart]
-        L2 --> L22[THD Current Analysis]
-        
-        F3 --> L3[Current Quality Analysis]
-        L3 --> L31[Current THD per Phase]
-        L3 --> L32[Current Imbalance]
-        L3 --> L33[Crest Factor Analysis]
-        L3 --> L34[Load Factor Calculation]
-        
-        F4 --> M1[Power Statistics]
-        M1 --> M11[Active Power (kW)]
-        M1 --> M12[Reactive Power (kVAR)]
-        M1 --> M13[Apparent Power (kVA)]
-        
-        F4 --> M2[Power Visualization]
-        M2 --> M21[Power Trend Charts]
-        M2 --> M22[Power Triangle Diagram]
-        
-        F4 --> M3[Energy Consumption]
-        M3 --> M31[Daily Consumption (kWh)]
-        M3 --> M32[Cost Analysis]
-        M3 --> M33[CO2 Emission Estimate]
-        M3 --> M34[PLN Tariff Information]
-        
-        F5 --> N1[Power Factor Overview]
-        N1 --> N11[Current Power Factor]
-        N1 --> N12[Average Power Factor]
-        N1 --> N13[Phase Angle (φ)]
-        N1 --> N14[Capacitor Compensation]
-        
-        F5 --> N2[PF Analysis Charts]
-        N2 --> N21[Power Factor Trend]
-        N2 --> N22[Compensation Analysis]
-        
-        F5 --> N3[PF Quality Classification]
-        N3 --> N31[PF Category Assessment]
-        N3 --> N32[Economic Impact Analysis]
-        
-        F6 --> O1[Device Monitoring]
-        O1 --> O11[PZEM Device Cards]
-        O1 --> O12[Device Status Indicators]
-        O1 --> O13[Real-time Parameters]
-        O1 --> O14[Load Percentage]
-        O1 --> O15[Power Quality Indicators]
-        
-        F6 --> O2[Alert System]
-        O2 --> O21[Parameter Anomaly Alerts]
-        O2 --> O22[System Fault Notifications]
-        
-        F6 --> O3[System Summary Metrics]
-        O3 --> O31[Normal Device Count]
-        O3 --> O32[Average System Load]
-        O3 --> O33[Overall Efficiency]
-        
-        F7 --> P1[Data Management Panel]
-        P1 --> P11[Multi-format Export]
-        P1 --> P12[Historical Data Import]
-        P1 --> P13[Advanced Data Filtering]
-        P1 --> P14[Cache Management]
-    end
-    
-    subgraph Layanan_Eksternal["🌐 Layanan Eksternal"]
-        H --> Q1[Sensor PZEM-004T]
-        H --> Q2[Firebase Cloud]
-        H --> Q3[IoT Data Gateway]
-    end
-    
-    subgraph Penyimpanan_Browser["💾 Penyimpanan Browser"]
-        I --> R1[Cached Measurements]
-        I --> R2[User Preferences]
-        I --> R3[Offline Data Backup]
-        I --> R4[Filter Settings]
-    end
-    
-    G11 -.->|Real-time Stream| H
-    G21 -.->|Local Persistence| I
-    
-    style Lapisan_UI fill:#e3f2fd
-    style Lapisan_Data fill:#f3e5f5
-    style Komponen_Visual fill:#e8f5e8
-    style Layanan_Eksternal fill:#fff3e0
-    style Penyimpanan_Browser fill:#fce4ec
+| Komponen | Fungsi | Teknologi |
+|----------|--------|-----------|
+| **Next.js 14 Dashboard** | Framework utama aplikasi web | React, TypeScript |
+| **Responsive Navigation** | Navigasi antar tab dengan ikon | Tailwind CSS |
+| **Theme System** | Dark/Light mode toggle | CSS Variables |
+| **Real-time Status** | Indikator koneksi Firebase | WebSocket |
+
+### 🔄 Lapisan 2: Pemrosesan Data (Data Layer)
+
+```
+📡 DATA ACQUISITION                    ⚙️ DATA PROCESSING
+┌─────────────────┐                   ┌─────────────────┐
+│ PZEM-004T       │──────────────────▶│ Firebase Hook   │
+│ • Voltage R/S/T │                   │ • Validation    │
+│ • Current R/S/T │                   │ • Transform     │
+│ • Power Factor  │                   │ • Filter        │
+│ • Frequency     │                   │ • Cache         │
+└─────────────────┘                   └─────────────────┘
+         │                                     │
+         ▼                                     ▼
+┌─────────────────┐                   ┌─────────────────┐
+│ IoT Gateway     │                   │ Enhanced Data   │
+│ • Data Collect  │                   │ Manager         │
+│ • Protocol Conv │                   │ • Storage       │
+│ • Error Handle  │                   │ • Aggregation   │
+└─────────────────┘                   └─────────────────┘
+         │                                     │
+         ▼                                     ▼
+┌─────────────────┐                   ┌─────────────────┐
+│ Firebase DB     │                   │ Performance     │
+│ • Real-time     │                   │ Monitor         │
+│ • Historical    │                   │ • Metrics       │
+│ • Compressed    │                   │ • Optimization  │
+└─────────────────┘                   └─────────────────┘
+```
+
+### 🎨 Lapisan 3: Komponen Visualisasi
+
+#### Tab Ikhtisar - KPI Cards
+```
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│ ⚡ TEGANGAN   │  │ 🔌 ARUS      │  │ 💡 DAYA      │  │ 📈 PF        │
+│              │  │              │  │              │  │              │
+│   220.5 V    │  │   15.2 A     │  │   3.34 kW    │  │    0.95      │
+│   Rata-rata  │  │   Rata-rata  │  │   Total      │  │   Excellent  │
+│              │  │              │  │              │  │              │
+│ 🟢 Normal    │  │ 🟢 Normal    │  │ 🟢 Normal    │  │ 🟢 Normal    │
+└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘
+```
+
+#### Grafik Visualisasi
+```
+VOLTAGE CHART (3-Phase Line Chart)          POWER CHART (Composed Chart)
+┌─────────────────────────────────────┐    ┌─────────────────────────────────────┐
+│ 240V ┤                             │    │ 4kW  ┤                             │
+│      │    ╭─╮                       │    │      │  ████                       │
+│ 220V ┤ ╭─╱   ╲╱─╮  Phase R         │    │ 3kW  ┤ ██  ██  Active Power       │
+│      │╱         ╲                  │    │      │██    ██                     │
+│ 200V ┤           ╲╱─╮  Phase S     │    │ 2kW  ┤        ██                   │
+│      │              ╲              │    │      │          ██                 │
+│ 180V ┤               ╲╱─╮  Phase T │    │ 1kW  ┤            ██  Reactive     │
+│      └─────────────────────────────│    │      └─────────────────────────────│
+│        10:00  11:00  12:00  13:00  │    │        10:00  11:00  12:00  13:00  │
+└─────────────────────────────────────┘    └─────────────────────────────────────┘
+```
+
+### 🌐 Lapisan 4: Layanan Eksternal
+
+| Layanan | Fungsi | Spesifikasi |
+|---------|--------|-------------|
+| **PZEM-004T Sensors** | Pengukuran parameter listrik | 3-phase, ±1% accuracy |
+| **Firebase Cloud** | Database real-time | NoSQL, WebSocket |
+| **IoT Data Gateway** | Protocol conversion | MQTT, HTTP, WebSocket |
+
+### 💾 Lapisan 5: Penyimpanan Browser
+
+```
+LOCAL STORAGE STRUCTURE
+├── 📁 measurements/
+│   ├── voltage_data_24h.json
+│   ├── current_data_24h.json
+│   └── power_data_24h.json
+├── 📁 preferences/
+│   ├── theme_settings.json
+│   ├── dashboard_layout.json
+│   └── filter_presets.json
+├── 📁 cache/
+│   ├── firebase_cache.json
+│   └── performance_metrics.json
+└── 📁 offline/
+    ├── backup_data.json
+    └── sync_queue.json
 ```
 
 ## Pipeline Pemrosesan Data Real-time
 
-Pipeline ini menunjukkan bagaimana data mengalir dari sensor PZEM hingga ditampilkan di antarmuka pengguna:
-
-```mermaid
-flowchart TD
-    subgraph Akuisisi_Data["📡 Akuisisi Data"]
-        A[Sensor PZEM-004T] --> B[IoT Data Gateway]
-        B --> C[Firebase Realtime Database]
-        C --> D[Real-time Data Stream]
-    end
-    
-    subgraph Pemrosesan_Data["⚙️ Pipeline Pemrosesan"]
-        D --> E[useOptimizedRealtimeElectricalData Hook]
-        E --> F[Validasi Data PZEM]
-        F --> G[Transformasi Format Data]
-        G --> H[Filter Rentang Waktu]
-        H --> I[Agregasi Data Historis]
-        I --> J[Optimalisasi Performa]
-        J --> K[Intelligent Caching]
-    end
-    
-    subgraph Manajemen_Lokal["💾 Manajemen Data Lokal"]
-        L[useEnhancedDataManagement Hook] --> M[Local Storage Layer]
-        M --> N[Data Persistence]
-        N --> O[Data Retrieval]
-        O --> P[Data Synchronization]
-        P --> Q[Conflict Resolution]
-    end
-    
-    subgraph Monitor_Performa["📊 Monitoring Performa"]
-        R[usePerformanceMonitor Hook] --> S[Metrics Collection]
-        S --> T[Performance Measurement]
-        T --> U[Debouncing & Throttling]
-        U --> V[Resource Optimization]
-    end
-    
-    subgraph Distribusi_UI["🎯 Distribusi ke UI"]
-        K --> W[Consolidated Electrical Data]
-        W --> X[Tab-specific Filtering]
-        X --> X1[📊 Overview Tab Data]
-        X --> X2[⚡ Voltage Tab Data]
-        X --> X3[🔌 Current Tab Data]
-        X --> X4[💡 Power Tab Data]
-        X --> X5[📈 Power Factor Tab Data]
-        X --> X6[🔧 Device Monitoring Data]
-        
-        Q --> W
-    end
-    
-    subgraph Rendering_UI["🖼️ UI Component Rendering"]
-        X1 --> Y1[KPI Cards Rendering]
-        X1 --> Y2[Overview Charts]
-        
-        X2 --> Y3[Voltage Statistics Cards]
-        X2 --> Y4[Voltage Trend Charts]
-        X2 --> Y5[Voltage Quality Metrics]
-        
-        X3 --> Y6[Current Statistics Cards]
-        X3 --> Y7[Current Analysis Charts]
-        X3 --> Y8[Current Quality Analysis]
-        
-        X4 --> Y9[Power Statistics Cards]
-        X4 --> Y10[Power Visualization Charts]
-        X4 --> Y11[Energy Consumption Analysis]
-        
-        X5 --> Y12[Power Factor Overview]
-        X5 --> Y13[PF Trend Charts]
-        X5 --> Y14[PF Quality Analysis]
-        
-        X6 --> Y15[Device Status Cards]
-        X6 --> Y16[Alert System UI]
-        X6 --> Y17[System Summary Metrics]
-    end
-    
-    subgraph Interaksi_User["👤 Interaksi Pengguna"]
-        Z1[Tab Navigation] --> X
-        Z2[Time Period Selection] --> X
-        Z3[Data Export/Import] --> L
-        Z4[Theme Toggle] --> AA[UI Re-rendering]
-        Z5[Performance Dashboard] --> R
-    end
-    
-    subgraph Manajemen_Data["📋 Manajemen Data"]
-        BB[Enhanced Data Management Panel] --> BC[Export Functionality]
-        BC --> BD[CSV Export]
-        BC --> BE[JSON Export]
-        BC --> BF[PDF Report Export]
-        
-        BB --> BG[Import Functionality]
-        BG --> BH[File Upload]
-        BG --> BI[Data Validation]
-        BI --> BJ[Data Integration]
-    end
-    
-    style Akuisisi_Data fill:#e3f2fd
-    style Pemrosesan_Data fill:#f3e5f5
-    style Manajemen_Lokal fill:#e8f5e8
-    style Monitor_Performa fill:#fff3e0
-    style Distribusi_UI fill:#fce4ec
-    style Rendering_UI fill:#f1f8e9
-    style Interaksi_User fill:#e0f2f1
-    style Manajemen_Data fill:#ffebee
+### 📡 Tahap 1: Akuisisi Data
+```
+SENSOR PZEM-004T → IoT GATEWAY → FIREBASE DATABASE
+     │                 │              │
+     ▼                 ▼              ▼
+┌─────────┐      ┌─────────┐    ┌─────────┐
+│ Phase R │      │Protocol │    │Real-time│
+│ Phase S │ ───▶ │Convert  │───▶│Database │
+│ Phase T │      │Validate │    │Storage  │
+│ Neutral │      │Buffer   │    │Sync     │
+└─────────┘      └─────────┘    └─────────┘
 ```
 
-<Info>
-**Keterangan Teknis:**
-- **Sensor PZEM-004T**: Sensor pengukur parameter listrik 3 fase dengan akurasi tinggi
-- **Firebase Realtime Database**: Database cloud untuk sinkronisasi data real-time
-- **Enhanced Data Management**: Sistem manajemen data dengan caching cerdas dan optimalisasi performa
-- **Multi-format Export**: Dukungan ekspor dalam format CSV, JSON, dan PDF untuk analisis lanjutan
-</Info>
+### ⚙️ Tahap 2: Pemrosesan Data
+```
+DATA PROCESSING PIPELINE
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│  📥 INPUT           🔄 PROCESS           📤 OUTPUT                              │
+│                                                                                 │
+│  Raw PZEM    ──▶    Validation    ──▶    Clean Data                            │
+│  Data              Transform            Formatted                              │
+│                    Filter               Aggregated                             │
+│                    Cache                Optimized                              │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 🎯 Tahap 3: Distribusi ke UI
+```
+DATA DISTRIBUTION TO TABS
+                    ┌─────────────────┐
+                    │ CONSOLIDATED    │
+                    │ ELECTRICAL DATA │
+                    └─────────┬───────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│📊 OVERVIEW  │      │⚡ VOLTAGE   │      │🔌 CURRENT   │
+│• KPI Cards  │      │• Phase Data │      │• Phase Data │
+│• Charts     │      │• THD        │      │• THD        │
+│• Summary    │      │• Quality    │      │• Quality    │
+└─────────────┘      └─────────────┘      └─────────────┘
+        │                     │                     │
+        └─────────────────────┼─────────────────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┐
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│💡 POWER     │      │📈 PF        │      │🔧 DEVICE    │
+│• Active     │      │• Factor     │      │• Status     │
+│• Reactive   │      │• Angle      │      │• Health     │
+│• Apparent   │      │• Quality    │      │• Alerts     │
+└─────────────┘      └─────────────┘      └─────────────┘
+```
 
 ## Fitur Utama Sistem
 
 ### 🎯 Monitoring Real-time
-- **Pemantauan 3 Fase**: Monitoring tegangan, arus, dan daya untuk fase R, S, T
-- **Update Real-time**: Sinkronisasi data setiap 5 detik dari sensor PZEM
-- **Status Koneksi**: Indikator status koneksi Firebase real-time
+
+| Parameter | Fase R | Fase S | Fase T | Satuan |
+|-----------|--------|--------|--------|--------|
+| **Tegangan** | 220.5 | 221.2 | 219.8 | Volt |
+| **Arus** | 15.2 | 14.8 | 15.5 | Ampere |
+| **Daya Aktif** | 3.34 | 3.28 | 3.41 | kW |
+| **Faktor Daya** | 0.95 | 0.94 | 0.96 | - |
+
+**Update Frequency**: Setiap 5 detik dari sensor PZEM  
+**Data Accuracy**: ±1% untuk semua parameter  
+**Connection Status**: 🟢 Real-time Firebase sync
 
 ### 📊 Analisis Kualitas Daya
-- **THD Analysis**: Analisis Total Harmonic Distortion untuk tegangan dan arus
-- **Power Factor**: Monitoring dan analisis faktor daya dengan rekomendasi kompensasi
-- **Voltage Regulation**: Analisis regulasi tegangan dan stabilitas sistem
-- **Load Analysis**: Analisis beban dan efisiensi sistem
+
+#### THD (Total Harmonic Distortion) Analysis
+```
+THD VOLTAGE ANALYSIS
+Phase R: ████████░░ 2.1% (Excellent)
+Phase S: ████████░░ 2.3% (Excellent)  
+Phase T: ████████░░ 1.9% (Excellent)
+
+THD CURRENT ANALYSIS  
+Phase R: ██████░░░░ 3.2% (Good)
+Phase S: ██████░░░░ 3.5% (Good)
+Phase T: ██████░░░░ 3.1% (Good)
+
+Standard: IEEE 519 (<5% = Good, <3% = Excellent)
+```
+
+#### Power Factor Classification
+```
+POWER FACTOR QUALITY MATRIX
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│   RANGE     │   STATUS    │   COLOR     │   ACTION    │
+├─────────────┼─────────────┼─────────────┼─────────────┤
+│ > 0.95      │ Excellent   │ 🟢 Green    │ Maintain    │
+│ 0.90 - 0.95 │ Good        │ 🟡 Yellow   │ Monitor     │
+│ 0.85 - 0.90 │ Fair        │ 🟠 Orange   │ Improve     │
+│ < 0.85      │ Poor        │ 🔴 Red      │ Compensate  │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+
+Current System Status: 0.95 (🟢 Excellent)
+```
 
 ### 🔧 Manajemen Data
-- **Filter Cerdas**: Filter data berdasarkan rentang waktu (24J/7H/1B)
-- **Export Multi-format**: Ekspor data dalam format CSV, JSON, PDF
-- **Caching Optimal**: Sistem caching dengan hit rate >90%
-- **Offline Support**: Dukungan mode offline dengan sinkronisasi otomatis
+
+#### Filter Cerdas
+```
+TIME RANGE FILTERS
+┌─────────────────────────────────────────────────────────────────┐
+│ [24H] ────── [7D] ────── [1M]                                   │
+│   ▲                                                             │
+│ Active                                                          │
+│                                                                 │
+│ Data Points: 17,280 | Storage: localStorage                    │
+│ Load Time: <1s | Cache Hit Rate: >90%                          │
+└─────────────────────────────────────────────────────────────────┘
+
+ADVANCED FILTERS
+• Date Range: [Start Date] ──── [End Date]
+• Parameter: [Voltage] [Current] [Power] [All]
+• Quality: [Normal] [Warning] [Critical] [All]
+• Phase: [R] [S] [T] [All]
+```
+
+#### Export Multi-format
+```
+EXPORT OPTIONS
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│    CSV      │    JSON     │    PDF      │   EXCEL     │
+├─────────────┼─────────────┼─────────────┼─────────────┤
+│ • Raw Data  │ • Metadata  │ • Report    │ • Analysis  │
+│ • Analysis  │ • Structure │ • Charts    │ • Pivot     │
+│ • Summary   │ • API Ready │ • Summary   │ • Formulas  │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+
+File Size Estimates:
+• 24H Data: ~2MB (CSV), ~1.5MB (JSON)
+• 7D Data: ~14MB (CSV), ~10MB (JSON)  
+• 1M Data: ~60MB (CSV), ~45MB (JSON)
+```
 
 ### 📱 Antarmuka Responsif
-- **Multi-device**: Dukungan desktop, tablet, dan mobile
-- **Dark/Light Mode**: Toggle tema gelap dan terang
-- **Interactive Charts**: Grafik interaktif dengan zoom dan filter
-- **Real-time Updates**: Update tampilan secara real-time
+
+#### Multi-device Support
+```
+RESPONSIVE BREAKPOINTS
+┌─────────────────┬─────────────────┬─────────────────┐
+│   📱 MOBILE     │   📱 TABLET     │   🖥️ DESKTOP   │
+│   < 768px       │  768px - 1024px │    > 1024px     │
+├─────────────────┼─────────────────┼─────────────────┤
+│ • Stack Layout  │ • Grid 2x2      │ • Grid 4x2      │
+│ • Touch UI      │ • Hybrid UI     │ • Mouse UI      │
+│ • Simplified    │ • Condensed     │ • Full Feature  │
+│ • Swipe Nav     │ • Tab Nav       │ • Sidebar Nav   │
+└─────────────────┴─────────────────┴─────────────────┘
+```
+
+#### Theme System
+```
+DARK/LIGHT MODE TOGGLE
+┌─────────────────────────────────────────────────────────────────┐
+│ 🌞 LIGHT MODE              │  🌙 DARK MODE                      │
+├─────────────────────────────┼─────────────────────────────────────┤
+│ • Background: #FFFFFF       │  • Background: #1A1A1A             │
+│ • Text: #000000             │  • Text: #FFFFFF                   │
+│ • Cards: #F8F9FA            │  • Cards: #2D2D2D                  │
+│ • Accent: #007BFF           │  • Accent: #0D6EFD                 │
+│ • Charts: Bright Colors     │  • Charts: Neon Colors             │
+└─────────────────────────────┴─────────────────────────────────────┘
+
+Auto-detection: System preference + Manual override
+```
+
+<Info>
+**Keterangan Teknis:**
+- **Sensor PZEM-004T**: Sensor pengukur parameter listrik 3 fase dengan akurasi ±1%
+- **Firebase Realtime Database**: Database cloud untuk sinkronisasi data real-time
+- **Enhanced Data Management**: Sistem manajemen data dengan caching cerdas dan optimalisasi performa
+- **Multi-format Export**: Dukungan ekspor dalam format CSV, JSON, PDF, dan Excel
+</Info>
 
 <Warning>
 Pastikan sensor PZEM-004T terpasang dengan benar dan terhubung ke gateway IoT untuk mendapatkan data yang akurat. Sistem memerlukan koneksi internet stabil untuk sinkronisasi real-time dengan Firebase.
 </Warning>
 
-Diagram-diagram di atas memberikan gambaran lengkap tentang arsitektur dan alur kerja Sistem Pemantauan Listrik, mulai dari akuisisi data sensor hingga visualisasi di antarmuka pengguna.
+Dokumentasi di atas memberikan gambaran lengkap tentang arsitektur dan alur kerja Sistem Pemantauan Listrik menggunakan representasi visual yang lebih mudah dipahami tanpa ketergantungan pada Mermaid diagrams.
