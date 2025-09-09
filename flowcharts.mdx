@@ -1,0 +1,220 @@
+---
+title: "Diagram Alur"
+description: "Buat diagram alur dan flowchart yang indah dalam dokumentasi Anda"
+---
+
+# Diagram Alur
+
+Diagram alur adalah alat visual yang powerful untuk menjelaskan proses kompleks, pohon keputusan, dan alur kerja. Panduan ini menunjukkan cara membuat dan mengintegrasikan diagram alur ke dalam dokumentasi Anda.
+
+## Ringkasan
+
+Diagram alur dapat dibuat menggunakan berbagai metode:
+
+- Diagram Mermaid (direkomendasikan)
+- Alat diagram eksternal
+- Embed gambar
+- Diagram interaktif
+
+## Diagram Alur Mermaid
+
+Mermaid adalah cara paling populer untuk membuat diagram alur dalam dokumentasi. Menggunakan sintaks teks sederhana untuk menghasilkan diagram yang indah.
+
+### Diagram Alur Dasar
+
+```mermaid
+flowchart TD
+    A[Mulai] --> B{Apakah berfungsi?}
+    B -->|Ya| C[Berfungsi!]
+    B -->|Tidak| D[Debug]
+    D --> B
+    C --> E[Selesai]
+```
+
+### Contoh Pohon Keputusan
+
+```mermaid
+flowchart TD
+    A[Permintaan User] --> B{Perlu Akses API?}
+    B -->|Ya| C[Periksa Kredensial]
+    B -->|Tidak| F[Proses Permintaan]
+    C --> D{Kredensial Valid?}
+    D -->|Ya| F[Proses Permintaan]
+    D -->|Tidak| E[Return Error]
+    F --> G[Return Response]
+    E --> H[Selesai]
+    G --> H[Selesai]
+```
+
+### Alur Proses
+
+```mermaid
+flowchart LR
+    A[Input Data] --> B[Validasi]
+    B --> C[Transform]
+    C --> D[Simpan]
+    D --> E[Notifikasi]
+    E --> F[Selesai]
+```
+
+## Diagram Alur Lanjutan
+
+### Subgraph dan Styling
+
+```mermaid
+flowchart TB
+    subgraph "Frontend"
+        A[Aplikasi React] --> B[API Call]
+    end
+    
+    subgraph "Backend"
+        C[API Gateway] --> D[Lambda Function]
+        D --> E[Database]
+    end
+    
+    B --> C
+    E --> D
+    D --> C
+    C --> B
+    
+    classDef frontend fill:#e1f5fe
+    classDef backend fill:#f3e5f5
+    
+    class A,B frontend
+    class C,D,E backend
+```
+
+### Alur Kerja Kompleks
+
+```mermaid
+flowchart TD
+    Start([Mulai]) --> Input[/Input User/]
+    Input --> Validate{Validasi Input}
+    Validate -->|Tidak Valid| Error[Tampilkan Error]
+    Error --> Input
+    Validate -->|Valid| Process[Proses Data]
+    Process --> Save[(Simpan ke Database)]
+    Save --> Success{Berhasil Disimpan?}
+    Success -->|Tidak| Retry[Coba Lagi]
+    Retry --> Save
+    Success -->|Ya| Notify[Kirim Notifikasi]
+    Notify --> End([Selesai])
+```
+
+## Referensi Sintaks Diagram Alur
+
+### Bentuk Node
+
+| Bentuk          | Sintaks     | Kasus Penggunaan |
+| --------------- | ----------- | ---------------- |
+| Persegi Panjang | `A[Teks]`   | Proses/Aksi      |
+| Belah Ketupat   | `A{Teks}`   | Keputusan        |
+| Lingkaran       | `A((Teks))` | Mulai/Selesai    |
+| Stadium         | `A([Teks])` | Mulai/Selesai    |
+| Silinder        | `A[(Teks)]` | Database         |
+| Jajaran Genjang | `A[/Teks/]` | Input/Output     |
+
+### Jenis Koneksi
+
+<table style="min-width: 75px">
+<colgroup><col style="min-width: 25px"><col style="min-width: 25px"><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Jenis</p></th><th colspan="1" rowspan="1"><p>Sintaks</p></th><th colspan="1" rowspan="1"><p>Deskripsi</p></th></tr><tr><td colspan="1" rowspan="1"><p>Panah</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A --&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Alur standar</p></td></tr><tr><td colspan="1" rowspan="1"><p>Berlabel</p></td><td colspan="1" rowspan="1"><p>`A --&gt;</p></td><td colspan="1" rowspan="1"><p>Label</p></td><td colspan="1" rowspan="1"><p>B`</p></td><td colspan="1" rowspan="1"><p>Koneksi berlabel</p></td></tr><tr><td colspan="1" rowspan="1"><p>Putus-putus</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A -.-&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Opsional/Async</p></td></tr><tr><td colspan="1" rowspan="1"><p>Tebal</p></td><td colspan="1" rowspan="1"><p><code spellcheck="false">A ==&gt; B</code></p></td><td colspan="1" rowspan="1"><p>Alur penting</p></td></tr></tbody>
+</table>
+
+## Praktik Terbaik
+
+<Tip>
+  Jaga diagram alur tetap sederhana dan fokus. Jika diagram menjadi terlalu kompleks, pertimbangkan untuk memecahnya menjadi beberapa diagram yang lebih kecil.
+</Tip>
+
+### Panduan Desain
+
+1. **Mulai dengan tujuan** - Tentukan apa yang harus dikomunikasikan diagram alur
+2. **Gunakan bentuk yang konsisten** - Patuhi simbol diagram alur standar
+3. **Pertahankan arah alur** - Umumnya dari atas ke bawah atau kiri ke kanan
+4. **Label dengan jelas** - Gunakan label yang ringkas dan deskriptif
+5. **Kelompokkan elemen terkait** - Gunakan subgraph untuk pengelompokan logis
+
+### Aksesibilitas
+
+- Berikan teks alt untuk diagram kompleks
+- Gunakan warna kontras tinggi
+- Sertakan deskripsi teks untuk screen reader
+- Pastikan diagram dapat dibaca pada berbagai tingkat zoom
+
+## Contoh Interaktif
+
+<CodeGroup>
+
+```mermaid Proses Sederhana
+flowchart TD
+    A[Mulai] --> B[Proses]
+    B --> C[Selesai]
+```
+
+
+```mermaid Dengan Keputusan
+flowchart TD
+    A[Mulai] --> B{Keputusan}
+    B -->|Ya| C[Aksi A]
+    B -->|Tidak| D[Aksi B]
+    C --> E[Selesai]
+    D --> E
+```
+
+
+```mermaid Alur Kompleks
+flowchart TB
+    subgraph "Layer User"
+        U[User] --> UI[User Interface]
+    end
+    
+    subgraph "Layer Aplikasi"
+        UI --> API[API Gateway]
+        API --> AUTH[Autentikasi]
+        API --> BL[Business Logic]
+    end
+    
+    subgraph "Layer Data"
+        BL --> DB[(Database)]
+        BL --> CACHE[(Cache)]
+    end
+```
+
+</CodeGroup>
+
+## Tips Integrasi
+
+### Dalam Dokumentasi
+
+- Tempatkan diagram alur dekat dengan konten teks yang relevan
+- Gunakan callout untuk menyoroti poin keputusan penting
+- Sediakan versi yang dapat diunduh untuk presentasi
+
+### Version Control
+
+- Simpan kode sumber diagram dalam version control
+- Gunakan pesan commit yang bermakna untuk perubahan diagram
+- Pertimbangkan review diagram sebagai bagian dari review dokumentasi
+
+<Warning>
+  Diagram alur yang besar atau kompleks dapat mempengaruhi waktu loading halaman. Pertimbangkan menggunakan alat diagram eksternal untuk workflow yang sangat detail.
+</Warning>
+
+## Alat dan Sumber Daya
+
+### Alat yang Direkomendasikan
+
+- **Mermaid** - Diagram berbasis teks (built-in di Mintlify)
+- **Lucidchart** - Diagramming profesional
+- **Draw.io** - Diagramming online gratis
+- **Figma** - Diagram fokus desain
+
+### Bacaan Lebih Lanjut
+
+- [Dokumentasi Mermaid](https://mermaid-js.github.io/mermaid/)
+- [Praktik Terbaik Flowchart](https://www.lucidchart.com/pages/flowchart-best-practices)
+- [Prinsip Desain Visual](https://www.interaction-design.org/literature/topics/visual-design)
+
+---
+
+Siap membuat diagram alur pertama Anda? Mulai dengan proses sederhana dan tambahkan kompleksitas secara bertahap sesuai kebutuhan.
