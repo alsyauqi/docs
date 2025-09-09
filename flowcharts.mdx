@@ -1,6 +1,7 @@
 ---
 title: "Diagram Alur Sistem"
 description: "Diagram arsitektur dan alur data yang mendetail untuk Sistem Pemantauan Listrik"
+icon: "diagram-project"
 ---
 
 # Diagram Alur Sistem Pemantauan Listrik
@@ -14,36 +15,25 @@ Sistem ini dirancang khusus untuk memantau tegangan, arus, daya, dan faktor daya
 ## Alur Kerja Sistem Keseluruhan
 
 ```
-┌─────────────────┐                           ┌─────────────────────┐
-│   👤 PENGGUNA   │──────────────────────────▶│  📊 DASBOR UTAMA    │
-│                 │                           │                     │
-│ • Akses Web     │                           │ • Header System     │
-│ • Interaksi UI  │                           │ • Navigation Tabs   │
-└─────────────────┘                           └─────────────────────┘
-                                                        │
-                       ┌──────────────────────────────────┼──────────────────────────────────┐
-                       │                                  │                                  │
-                       ▼                                  ▼                                  ▼
-            ┌─────────────────┐                ┌─────────────────┐                ┌─────────────────┐
-            │  ⚡ TAB TEGANGAN │                │  🔌 TAB ARUS    │                │  💡 TAB DAYA    │
-            │                 │                │                 │                │                 │
-            │ • Fase R/S/T    │                │ • Fase R/S/T    │                │ • Aktif (kW)    │
-            │ • THD Analysis  │                │ • THD Analysis  │                │ • Reaktif (kVAR)│
-            │ • Imbalance     │                │ • Crest Factor  │                │ • Semu (kVA)    │
-            │ • Regulation    │                │ • Load Factor   │                │ • Konsumsi      │
-            └─────────────────┘                └─────────────────┘                └─────────────────┘
-                       │                                  │                                  │
-                       └──────────────────┬───────────────────────────────┬──────────────────┘
-                                          │                               │
-                                          ▼                               ▼
-                                ┌─────────────────┐                ┌─────────────────┐
-                                │ 📈 TAB PF       │                │ 🔧 TAB DEVICE   │
-                                │                 │                │                 │
-                                │ • Power Factor  │                │ • PZEM Status   │
-                                │ • Phase Angle   │                │ • Load %        │
-                                │ • Compensation  │                │ • Efficiency    │
-                                │ • Quality Class │                │ • Alerts        │
-                                └─────────────────┘                └─────────────────┘
+┌─────────────────┐    ┌─────────────────────┐    ┌─────────────────┐    ┌─────────────────────┐
+│ Perangkat PZEM  │───▶│ Firebase Database   │───▶│  Aplikasi Web   │───▶│ Dashboard Real-time │
+│                 │    │                     │    │                 │    │                     │
+│ • Sensor 3-Fase │    │ • Database Real-time│    │ • Next.js 14    │    │ • Monitoring Live   │
+│ • Tegangan R/S/T│    │ • Data Streaming    │    │ • React Hooks   │    │ • KPI Cards         │
+│ • Arus R/S/T    │    │ • Sinkronisasi      │    │ • TypeScript    │    │ • Charts Interaktif │
+│ • Daya & PF     │    │ • Cache Cerdas      │    │ • Tailwind CSS  │    │ • Analisis Real-time│
+└─────────────────┘    └─────────────────────┘    └─────────────────┘    └─────────────────────┘
+```
+
+### 🔄 Alur Data Real-time
+```
+PZEM Sensors ──▶ IoT Gateway ──▶ Firebase ──▶ Web Hooks ──▶ UI Components
+     │               │              │            │              │
+     ▼               ▼              ▼            ▼              ▼
+• Voltage R/S/T  • Protocol    • Real-time   • Data        • Live Charts
+• Current R/S/T  • Convert     • Storage     • Processing  • KPI Updates  
+• Power Factor   • Validate    • Sync        • Filter      • Notifications
+• Frequency      • Buffer      • Cache       • Transform   • Alerts
 ```
 
 ### 🎯 Komponen Header Sistem
@@ -107,7 +97,7 @@ Sistem ini dirancang khusus untuk memantau tegangan, arus, daya, dan faktor daya
 │   Rata-rata  │  │   Rata-rata  │  │   Total      │  │   Excellent  │
 │              │  │              │  │              │  │              │
 │ 🟢 Normal    │  │ 🟢 Normal    │  │ 🟢 Normal    │  │ 🟢 Normal    │
-└──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘
+└──────────────┘  └──────────────┘  ┌──────────────┘  └──────────────┘
 ```
 
 #### Grafik Visualisasi
