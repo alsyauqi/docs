@@ -1,11 +1,7 @@
 ---
 title: "Diagram Alur"
-description: "Buat diagram alur dan flowchart yang indah dalam dokumentasi Anda"
+description: "Diagram alur adalah alat visual untuk menjelaskan proses kompleks, pohon keputusan, dan alur kerja. Panduan ini menunjukkan dan mengintegrasikan diagram alur ke dalam dokumentasi."
 ---
-
-# Diagram Alur
-
-Diagram alur adalah alat visual untuk menjelaskan proses kompleks, pohon keputusan, dan alur kerja. Panduan ini menunjukkan dan mengintegrasikan diagram alur ke dalam dokumentasi.
 
 ### Diagram Alur Dasar
 
@@ -40,13 +36,11 @@ flowchart LR
     A[Input Data] --> B[Validasi]
     B --> C[Transform]
     C --> D[Simpan]
-    D --> E[Notifikasi]
+    D --> E[Validasi]
     E --> F[Selesai]
 ```
 
-## Diagram Alur Lanjutan
-
-### Subgraph dan Styling
+## Diagram Alur Bertingkat
 
 ```mermaid
 flowchart TB
@@ -84,7 +78,7 @@ flowchart TD
     Save --> Success{Berhasil Disimpan?}
     Success -->|Tidak| Retry[Coba Lagi]
     Retry --> Save
-    Success -->|Ya| Notify[Kirim Notifikasi]
+    Success -->|Ya| Notify[Kirim Validasi]
     Notify --> End([Selesai])
 ```
 
@@ -151,20 +145,4 @@ flowchart TB
 
 </CodeGroup>
 
-## Tips Integrasi
-
-### Dalam Dokumentasi
-
-- Tempatkan diagram alur dekat dengan konten teks yang relevan
-- Gunakan callout untuk menyoroti poin keputusan penting
-- Sediakan versi yang dapat diunduh untuk presentasi
-
-### Version Control
-
-- Simpan kode sumber diagram dalam version control
-- Gunakan pesan commit yang bermakna untuk perubahan diagram
-- Pertimbangkan review diagram sebagai bagian dari review dokumentasi
-
-<Warning>
-  Diagram alur yang besar atau kompleks dapat mempengaruhi waktu loading halaman. Pertimbangkan menggunakan alat diagram eksternal untuk workflow yang sangat detail.
-</Warning>
+## 
