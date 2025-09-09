@@ -25,7 +25,7 @@ Mermaid adalah cara paling populer untuk membuat diagram alur dalam dokumentasi.
 ```mermaid
 flowchart TD
     A[Mulai] --> B{Apakah berfungsi?}
-    B -->|Ya| C[Berfungsi!]
+    B -->|Ya| C[Berfungsi]
     B -->|Tidak| D[Debug]
     D --> B
     C --> E[Selesai]
@@ -38,7 +38,7 @@ flowchart TD
     A[Permintaan User] --> B{Perlu Akses API?}
     B -->|Ya| C[Periksa Kredensial]
     B -->|Tidak| F[Proses Permintaan]
-    C --> D{Kredensial Valid?}
+    C --> D{Kredensial API Valid?}
     D -->|Ya| F[Proses Permintaan]
     D -->|Tidak| E[Return Error]
     F --> G[Return Response]
@@ -49,12 +49,11 @@ flowchart TD
 ### Alur Proses
 
 ```mermaid
-flowchart LR
-    A[Input Data] --> B[Validasi]
-    B --> C[Transform]
+flowchart Gateway
+    A[Kirim Data] --> B[Validasi]
+    B --> C[Transform Data]
     C --> D[Simpan]
-    D --> E[Notifikasi]
-    E --> F[Selesai]
+    D --> E[Selesai]
 ```
 
 ## Diagram Alur Lanjutan
@@ -63,25 +62,24 @@ flowchart LR
 
 ```mermaid
 flowchart TB
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    
     subgraph "Frontend"
         A[Aplikasi React] --> B[API Call]
+        class A,B frontend
     end
     
     subgraph "Backend"
         C[API Gateway] --> D[Lambda Function]
         D --> E[Database]
+        class C,D,E backend
     end
     
     B --> C
     E --> D
     D --> C
     C --> B
-    
-    classDef frontend fill:#e1f5fe
-    classDef backend fill:#f3e5f5
-    
-    class A,B frontend
-    class C,D,E backend
 ```
 
 ### Alur Kerja Kompleks
@@ -97,7 +95,7 @@ flowchart TD
     Save --> Success{Berhasil Disimpan?}
     Success -->|Tidak| Retry[Coba Lagi]
     Retry --> Save
-    Success -->|Ya| Notify[Kirim Notifikasi]
+    Success -->|Ya| Notify[Kirim Validasi]
     Notify --> End([Selesai])
 ```
 
@@ -116,12 +114,12 @@ flowchart TD
 
 ### Jenis Koneksi
 
-| Jenis | Sintaks | Deskripsi |
-|-------|---------|-----------|
-| Panah | `A --> B` | Alur standar |
-| Berlabel | `A -->|Label| B` | Koneksi berlabel |
-| Putus-putus | `A -.-> B` | Opsional/Async |
-| Tebal | `A ==> B` | Alur penting |
+| Jenis       | Sintaks    | Deskripsi      |     |                  |
+| ----------- | ---------- | -------------- | --- | ---------------- |
+| Panah       | `A --> B`  | Alur standar   |     |                  |
+| Berlabel    | \`A --\>   | Label          | B\` | Koneksi berlabel |
+| Putus-putus | `A -.-> B` | Opsional/Async |     |                  |
+| Tebal       | `A ==> B`  | Alur penting   |     |                  |
 
 ## Contoh Interaktif
 
