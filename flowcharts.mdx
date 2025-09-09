@@ -5,20 +5,7 @@ description: "Buat diagram alur dan flowchart yang indah dalam dokumentasi Anda"
 
 # Diagram Alur
 
-Diagram alur adalah alat visual yang powerful untuk menjelaskan proses kompleks, pohon keputusan, dan alur kerja. Panduan ini menunjukkan cara membuat dan mengintegrasikan diagram alur ke dalam dokumentasi Anda.
-
-## Ringkasan
-
-Diagram alur dapat dibuat menggunakan berbagai metode:
-
-- Diagram Mermaid (direkomendasikan)
-- Alat diagram eksternal
-- Embed gambar
-- Diagram interaktif
-
-## Diagram Alur Mermaid
-
-Mermaid adalah cara paling populer untuk membuat diagram alur dalam dokumentasi. Menggunakan sintaks teks sederhana untuk menghasilkan diagram yang indah.
+Diagram alur adalah alat visual untuk menjelaskan proses kompleks, pohon keputusan, dan alur kerja. Panduan ini menunjukkan dan mengintegrasikan diagram alur ke dalam dokumentasi.
 
 ### Diagram Alur Dasar
 
@@ -63,8 +50,8 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px, color:#000000
+    classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px, color:#000000
     
     subgraph "Frontend"
         A[Aplikasi React] --> B[API Call]
@@ -116,12 +103,12 @@ flowchart TD
 
 ### Jenis Koneksi
 
-| Jenis | Sintaks | Deskripsi |
-|-------|---------|-----------|
-| Panah | `A --> B` | Alur standar |
-| Berlabel | `A -->|Label| B` | Koneksi berlabel |
-| Putus-putus | `A -.-> B` | Opsional/Async |
-| Tebal | `A ==> B` | Alur penting |
+| Jenis       | Sintaks    | Deskripsi      |     |                  |
+| ----------- | ---------- | -------------- | --- | ---------------- |
+| Panah       | `A --> B`  | Alur standar   |     |                  |
+| Berlabel    | \`A --\>   | Label          | B\` | Koneksi berlabel |
+| Putus-putus | `A -.-> B` | Opsional/Async |     |                  |
+| Tebal       | `A ==> B`  | Alur penting   |     |                  |
 
 ## Contoh Interaktif
 
@@ -181,22 +168,3 @@ flowchart TB
 <Warning>
   Diagram alur yang besar atau kompleks dapat mempengaruhi waktu loading halaman. Pertimbangkan menggunakan alat diagram eksternal untuk workflow yang sangat detail.
 </Warning>
-
-## Alat dan Sumber Daya
-
-### Alat yang Direkomendasikan
-
-- **Mermaid** - Diagram berbasis teks (built-in di Mintlify)
-- **Lucidchart** - Diagramming profesional
-- **Draw.io** - Diagramming online gratis
-- **Figma** - Diagram fokus desain
-
-### Bacaan Lebih Lanjut
-
-- [Dokumentasi Mermaid](https://mermaid-js.github.io/mermaid/)
-- [Praktik Terbaik Flowchart](https://www.lucidchart.com/pages/flowchart-best-practices)
-- [Prinsip Desain Visual](https://www.interaction-design.org/literature/topics/visual-design)
-
----
-
-Siap membuat diagram alur pertama Anda? Mulai dengan proses sederhana dan tambahkan kompleksitas secara bertahap sesuai kebutuhan.
