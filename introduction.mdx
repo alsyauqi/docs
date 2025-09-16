@@ -49,6 +49,156 @@ Sistem ini memiliki arsitektur data yang solid dengan alur:
 - **Regulasi Tegangan**: Stabilitas sistem
 - **Flicker Detection**: Deteksi fluktuasi tegangan
 
+## Formula Perhitungan Listrik
+
+### 📐 **Formula Tegangan**
+
+#### Ketidakseimbangan Tegangan
+```
+Imbalance = max(|Vi - Vavg| / Vavg × 100%)
+```
+- Vi = Tegangan fase individual
+- Vavg = Tegangan rata-rata semua fase
+
+#### Regulasi Tegangan
+```
+Regulation = |(Vavg - Vnominal) / Vnominal × 100%|
+```
+- Vavg = Tegangan rata-rata terukur
+- Vnominal = Tegangan nominal (220V)
+
+#### Flicker (Fluktuasi Tegangan)
+```
+Flicker = Σ|Vi+1 - Vi|
+```
+- Vi = Tegangan pada waktu i
+- Vi+1 = Tegangan pada waktu i+1
+
+### ⚡ **Formula Arus**
+
+#### Ketidakseimbangan Arus
+```
+Imbalance = max(|Ii - Iavg| / Iavg × 100%)
+```
+- Ii = Arus fase individual
+- Iavg = Arus rata-rata semua fase
+
+#### Crest Factor
+```
+Crest Factor = Ipeak / Iavg
+```
+- Ipeak = Arus puncak maksimum
+- Iavg = Arus rata-rata
+
+### 🔋 **Formula Daya**
+
+#### Efisiensi Daya
+```
+Efficiency = (Pactive / Papparent) × 100%
+```
+- Pactive = Daya aktif (W)
+- Papparent = Daya semu (VA)
+
+#### Load Factor
+```
+Load Factor = (Pactual / (Pactual × PeakMultiplier)) × 100%
+```
+- Pactual = Daya aktual
+- PeakMultiplier = Faktor pengali puncak (default: 1.2)
+
+#### Demand Factor
+```
+Demand Factor = Pactive / (Pactive × PeakMultiplier)
+```
+- PeakMultiplier = Faktor pengali puncak (default: 1.1)
+
+### 💰 **Formula Ekonomi**
+
+#### Konsumsi Harian
+```
+Daily Consumption = (Pactive × 24) / 1000 kWh
+```
+- Pactive = Daya aktif dalam Watt
+
+#### Biaya Harian
+```
+Daily Cost = Daily Consumption × Tariff per kWh
+```
+- Tariff = Rp 1,699.53 per kWh
+
+#### Emisi CO2 Harian
+```
+Daily CO2 = Daily Consumption × CO2 Factor
+```
+- CO2 Factor = 0.78 kg CO2/kWh
+
+### ⚙️ **Formula Power Factor**
+
+#### Kompensasi yang Diperlukan
+```
+Compensation = Pactive × (tan(arccos(PFcurrent)) - tan(arccos(PFtarget)))
+```
+- PFcurrent = Power factor saat ini
+- PFtarget = Power factor target
+
+#### Sudut Fase
+```
+Phase Angle = arccos(Power Factor) × (180/π)
+```
+
+#### Penalti Power Factor
+```
+PF Penalty = Pactive × Penalty Rate (jika PF < 0.8)
+```
+- Penalty Rate = Rp 25,000
+
+#### Bonus Power Factor
+```
+PF Bonus = Pactive × Bonus Rate (jika PF > 0.95)
+```
+- Bonus Rate = Rp 15,000
+
+#### Penghematan Efisiensi
+```
+Efficiency Savings = Pactive × (1 - PF) × Savings Rate
+```
+- Savings Rate = Rp 10,000
+
+#### Total Manfaat Ekonomi
+```
+Total Benefit = Bonus - Penalty + Savings
+```
+
+### 🎛️ **Threshold dan Klasifikasi**
+
+#### Status Tegangan
+- **Normal**: 210V - 230V
+- **Warning**: 200V - 240V
+- **Error**: < 200V atau > 240V
+
+#### Klasifikasi Power Factor
+- **Excellent**: ≥ 0.95
+- **Good**: ≥ 0.90
+- **Fair**: ≥ 0.80
+- **Poor**: < 0.80
+
+#### Status THD
+- **Excellent**: < 5%
+- **Good**: < 10%
+- **Poor**: ≥ 10%
+
+#### Status Beban
+- **Optimal**: < 70%
+- **Normal**: < 85%
+- **High**: ≥ 85%
+
+#### Stabilitas Frekuensi
+```
+Stability = |Frequency - 50Hz| < 0.5Hz
+```
+- **Stable**: Deviasi < 0.5Hz
+- **Unstable**: Deviasi ≥ 0.5Hz
+
 ## Teknologi yang Digunakan
 
 - **Frontend**: Next.js, React, TypeScript
