@@ -18,186 +18,49 @@ graph LR
     C --> D[Dashboard Real-time]
 ```
 
-Sistem ini memiliki arsitektur data yang solid dengan alur:
-**Perangkat PZEM** → **Firebase (Database Real-time)** → **Aplikasi Web**
+Sistem ini memiliki arsitektur data yang solid dengan alur: **Perangkat PZEM** → **Firebase (Database Real-time)** → **Aplikasi Web**
 
 ## Fitur Utama
 
 ### 🔍 **Pemantauan Real-time**
+
 - Monitoring tegangan, arus, dan daya secara langsung
 - Update data setiap 5 detik dari sensor PZEM
 - Visualisasi interaktif dengan grafik yang responsif
 
-### 📊 **7 Tab Analisis Komprehensif**
-1. **Overview** - Ringkasan KPI dan tren utama
-2. **Tegangan** - Analisis kualitas dan ketidakseimbangan tegangan
-3. **Arus** - Monitoring beban dan distorsi arus
-4. **Daya** - Analisis efisiensi dan power triangle
-5. **Power Factor** - Pemantauan faktor daya mendalam
-6. **Device** - Status perangkat PZEM individual
-7. **Data Management** - Filter dan optimasi data historis
-
 ### ⚡ **Indikator Kinerja Utama (KPI)**
+
 - **Tegangan Rata-rata**: Status normal 210-230V
 - **Arus Rata-rata**: Tracking tren perubahan
 - **Total Daya Aktif**: Indikator efisiensi utama
-- **Power Factor**: Rating Excellent (&gt;0.95), Good (&gt;0.90), Poor (&lt;0.90)
-
-### 🎯 **Analisis Kualitas Daya**
-- **THD (Total Harmonic Distortion)**: Deteksi polusi gelombang
-- **Ketidakseimbangan Fase**: Monitoring kesehatan peralatan
-- **Regulasi Tegangan**: Stabilitas sistem
-- **Flicker Detection**: Deteksi fluktuasi tegangan
-
-## Formula Perhitungan Listrik
-
-### 📐 **Formula Tegangan**
-
-#### Ketidakseimbangan Tegangan
-```
-Imbalance = max(|Vi - Vavg| / Vavg × 100%)
-```
-- Vi = Tegangan fase individual
-- Vavg = Tegangan rata-rata semua fase
-
-#### Regulasi Tegangan
-```
-Regulation = |(Vavg - Vnominal) / Vnominal × 100%|
-```
-- Vavg = Tegangan rata-rata terukur
-- Vnominal = Tegangan nominal (220V)
-
-#### Flicker (Fluktuasi Tegangan)
-```
-Flicker = Σ|Vi+1 - Vi|
-```
-- Vi = Tegangan pada waktu i
-- Vi+1 = Tegangan pada waktu i+1
-
-### ⚡ **Formula Arus**
-
-#### Ketidakseimbangan Arus
-```
-Imbalance = max(|Ii - Iavg| / Iavg × 100%)
-```
-- Ii = Arus fase individual
-- Iavg = Arus rata-rata semua fase
-
-#### Crest Factor
-```
-Crest Factor = Ipeak / Iavg
-```
-- Ipeak = Arus puncak maksimum
-- Iavg = Arus rata-rata
-
-### 🔋 **Formula Daya**
-
-#### Efisiensi Daya
-```
-Efficiency = (Pactive / Papparent) × 100%
-```
-- Pactive = Daya aktif (W)
-- Papparent = Daya semu (VA)
-
-#### Load Factor
-```
-Load Factor = (Pactual / (Pactual × PeakMultiplier)) × 100%
-```
-- Pactual = Daya aktual
-- PeakMultiplier = Faktor pengali puncak (default: 1.2)
-
-#### Demand Factor
-```
-Demand Factor = Pactive / (Pactive × PeakMultiplier)
-```
-- PeakMultiplier = Faktor pengali puncak (default: 1.1)
-
-### 💰 **Formula Ekonomi**
-
-#### Konsumsi Harian
-```
-Daily Consumption = (Pactive × 24) / 1000 kWh
-```
-- Pactive = Daya aktif dalam Watt
-
-#### Biaya Harian
-```
-Daily Cost = Daily Consumption × Tariff per kWh
-```
-- Tariff = Rp 1,699.53 per kWh
-
-#### Emisi CO2 Harian
-```
-Daily CO2 = Daily Consumption × CO2 Factor
-```
-- CO2 Factor = 0.78 kg CO2/kWh
-
-### ⚙️ **Formula Power Factor**
-
-#### Kompensasi yang Diperlukan
-```
-Compensation = Pactive × (tan(arccos(PFcurrent)) - tan(arccos(PFtarget)))
-```
-- PFcurrent = Power factor saat ini
-- PFtarget = Power factor target
-
-#### Sudut Fase
-```
-Phase Angle = arccos(Power Factor) × (180/π)
-```
-
-#### Penalti Power Factor
-```
-PF Penalty = Pactive × Penalty Rate (jika PF < 0.8)
-```
-- Penalty Rate = Rp 25,000
-
-#### Bonus Power Factor
-```
-PF Bonus = Pactive × Bonus Rate (jika PF > 0.95)
-```
-- Bonus Rate = Rp 15,000
-
-#### Penghematan Efisiensi
-```
-Efficiency Savings = Pactive × (1 - PF) × Savings Rate
-```
-- Savings Rate = Rp 10,000
-
-#### Total Manfaat Ekonomi
-```
-Total Benefit = Bonus - Penalty + Savings
-```
+- **Power Factor**: Rating Excellent (\>0.95), Good (\>0.90), Poor (\<0.90)
 
 ### 🎛️ **Threshold dan Klasifikasi**
 
 #### Status Tegangan
+
 - **Normal**: 210V - 230V
 - **Warning**: 200V - 240V
-- **Error**: < 200V atau > 240V
+- **Error**: \< 200V atau \> 240V
 
 #### Klasifikasi Power Factor
+
 - **Excellent**: ≥ 0.95
 - **Good**: ≥ 0.90
 - **Fair**: ≥ 0.80
-- **Poor**: < 0.80
+- **Poor**: \< 0.80
 
 #### Status THD
-- **Excellent**: < 5%
-- **Good**: < 10%
+
+- **Excellent**: \< 5%
+- **Good**: \< 10%
 - **Poor**: ≥ 10%
 
 #### Status Beban
-- **Optimal**: < 70%
-- **Normal**: < 85%
-- **High**: ≥ 85%
 
-#### Stabilitas Frekuensi
-```
-Stability = |Frequency - 50Hz| < 0.5Hz
-```
-- **Stable**: Deviasi < 0.5Hz
-- **Unstable**: Deviasi ≥ 0.5Hz
+- **Optimal**: \< 70%
+- **Normal**: \< 85%
+- **High**: ≥ 85%
 
 ## Teknologi yang Digunakan
 
@@ -205,29 +68,13 @@ Stability = |Frequency - 50Hz| < 0.5Hz
 - **Database**: Firebase Realtime Database
 - **Hardware**: Sensor PZEM untuk monitoring 3-phase
 - **Visualisasi**: Recharts untuk grafik interaktif
-- **Storage**: IndexedDB untuk data historis
-
-## Optimasi Performa
-
-### 🚀 **Manajemen Data Cerdas**
-- **Kompresi Data**: Reduksi ukuran 60-80%
-- **Caching Strategy**: Hit rate &gt;90%
-- **Memory Management**: &lt;50MB penggunaan memori
-- **Load Time**: &lt;1s (24h), &lt;5s (7d), &lt;10s (1m)
-
-### 📈 **Storage Strategy**
-- **24 jam**: localStorage (akses cepat)
-- **7 hari**: IndexedDB (dataset medium)
-- **1 bulan**: Hybrid system (dataset besar)
+- **Storage**: Firebase data cache
 
 ## Keunggulan Sistem
 
-✅ **Real-time Monitoring** dengan update 5 detik  
-✅ **Analisis Mendalam** 7 aspek kelistrikan  
-✅ **Optimasi Performa** untuk dataset besar  
-✅ **Interface Intuitif** dengan visualisasi modern  
-✅ **Formula Standar** kelistrikan industri  
-✅ **Responsive Design** untuk semua perangkat  
+✅ **Real-time Monitoring** dengan update 5 detik\
+✅ **Interface Intuitif** dengan visualisasi modern\
+✅ **Responsive Design** untuk semua perangkat
 
 ## Target Pengguna
 
@@ -237,5 +84,3 @@ Stability = |Frequency - 50Hz| < 0.5Hz
 - **Management** - Laporan performa dan KPI
 
 ---
-
-Sistem ini dirancang tidak hanya untuk pemantauan, tetapi juga untuk analisis mendalam yang membantu dalam pengambilan keputusan operasional dan pemeliharaan sistem kelistrikan.

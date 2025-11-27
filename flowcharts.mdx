@@ -31,15 +31,6 @@ flowchart TD
 
 ### Alur Proses
 
-```mermaid
-flowchart LR
-    A[Input Data] --> B[Validasi]
-    B --> C[Transform]
-    C --> D[Simpan]
-    D --> E[Validasi]
-    E --> F[Selesai]
-```
-
 ## Diagram Alur Bertingkat
 
 ```mermaid
@@ -48,7 +39,7 @@ flowchart TB
     classDef backend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px, color:#000000
     
     subgraph "Frontend"
-        A[Aplikasi React] --> B[API Call]
+        A[Aplikasi NextJS] --> B[API Call]
     end
     
     subgraph "Backend"
